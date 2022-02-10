@@ -1,6 +1,5 @@
 import random
 
-
 class TicTacToe:
     def __init__(self):
         # Sets up the board to be '-'
@@ -56,10 +55,21 @@ class TicTacToe:
                 col = input("Enter a col: ")
         self.place_player(player, int(row), int(col))
 
+    def take_random_turn(self, player):
+        ranRow = random.randint(0, 2)
+        ranCol = random.randint(0, 2)
+        while not self.is_valid_move(ranRow, ranCol):
+            ranRow = random.randint(0, 2)
+            ranCol = random.randint(0, 2)
+        self.place_player(player, ranRow, ranCol)
+
     def take_turn(self, player):
-        # Simply calls the take_manual_turn function
+        # Simply calls the take_manual_turn and take_random_turn functions
         print(player + "'s Turn")
-        self.take_manual_turn(player)
+        if player == 'X':
+            self.take_manual_turn('X')
+        else:
+            self.take_random_turn('O')
         return
 
     def check_col_win(self, player):
