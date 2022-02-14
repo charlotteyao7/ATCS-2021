@@ -56,6 +56,7 @@ class TicTacToe:
         self.place_player(player, int(row), int(col))
 
     def take_random_turn(self, player):
+        # Generates a random valid spot for the NPC to move
         ranRow = random.randint(0, 2)
         ranCol = random.randint(0, 2)
         while not self.is_valid_move(ranRow, ranCol):
@@ -69,7 +70,7 @@ class TicTacToe:
         if player == 'X':
             self.take_manual_turn('X')
         else:
-            self.take_random_turn('O')
+            self.take_minimax_turn('O')
         return
 
     def check_col_win(self, player):
@@ -108,6 +109,49 @@ class TicTacToe:
                     return False
         return True
 
+    def minimax(self, player):
+        if self.check_win('O'):
+            return (10, None, None)
+        elif self.check_win('X'):
+            return (-10, None, None)
+        elif self.check_tie():
+            return (0, None, None)
+
+        opt_row = -1
+        opt_col = -1
+        if player == 'O':
+            best = -10
+            for i in range(0, 3):
+                for j in range(0, 3):
+                    if self.is_valid_move(i, j):
+                        self.place_player('O', i, j)
+                        score = self.minimax('X')[0]
+                        if best < score:
+                            best = score
+                            opt_row = i
+                            opt_col = j
+                        self.place_player('-', i, j)
+            return (best, opt_row, opt_col)
+
+        if player == 'X':
+            worst = 10
+            for n in range(0, 3):
+                for m in range(0, 3):
+                    if self.is_valid_move(n, m):
+                        self.place_player('X', n, m)
+                        score = self.minimax('O')[0]
+                        if worst > score:
+                            worst = score
+                            opt_row = n
+                            opt_col = m
+                        self.place_player('-', n, m)
+            return (worst, opt_row, opt_col)
+
+    def take_minimax_turn(self, player):
+        score, row, col = self.minimax(player)
+        print("Score: ", score, " Row: ", row, " Col: ", col)
+        self.place_player(player, row, col)
+
     def play_game(self):
         # Runs the game
         self.print_instructions()
@@ -118,12 +162,12 @@ class TicTacToe:
             if not self.check_win('X') and not self.check_tie():
                 self.take_turn('O')
                 self.print_board()
-        if self.check_tie():
-            print('Tie!')
-        elif self.check_win('X'):
+        if self.check_win('X'):
             print('X wins!')
         elif self.check_win('O'):
             print('O wins!')
+        elif self.check_tie():
+            print('Tie!')
         else:
             print('Error')
         return
