@@ -1,4 +1,5 @@
 import random
+import time
 
 class TicTacToe:
     def __init__(self):
@@ -151,8 +152,61 @@ class TicTacToe:
             return (worst, opt_row, opt_col)
 
     def take_minimax_turn(self, player, depth):
-        score, row, col = self.minimax(player, depth)
+        start = time.time()
+        # score, row, col = self.minimax(player, 100)
+        score, row, col = self.minimax_alpha_beta(player, 5, -100, 100)
+        end = time.time()
+        print("This turn took:", end - start, "seconds")
         self.place_player(player, row, col)
+
+    def minimax_alpha_beta(self, player, depth, alpha, beta):
+        if depth > 0:
+            if self.check_win('O'):
+                return (10, None, None)
+            elif self.check_win('X'):
+                return (-10, None, None)
+            elif self.check_tie():
+                return (0, None, None)
+        else:
+            return (0, None, None)
+
+        opt_row = -1
+        opt_col = -1
+        if player == 'O':
+            best = -10
+            for i in range(0, 3):
+                for j in range(0, 3):
+                    if self.is_valid_move(i, j):
+                        self.place_player('O', i, j)
+                        score = self.minimax('X', depth - 1)[0]
+                        if best < score:
+                            best = score
+                            opt_row = i
+                            opt_col = j
+                        if alpha < score:
+                            alpha = score
+                        self.place_player('-', i, j)
+                        if alpha >= beta:
+                            return (best, opt_row, opt_col)
+            return (best, opt_row, opt_col)
+
+        if player == 'X':
+            worst = 10
+            for n in range(0, 3):
+                for m in range(0, 3):
+                    if self.is_valid_move(n, m):
+                        self.place_player('X', n, m)
+                        score = self.minimax('O', depth - 1)[0]
+                        if worst > score:
+                            worst = score
+                            opt_row = n
+                            opt_col = m
+                        if beta > score:
+                            beta = score
+                        self.place_player('-', n, m)
+                        if alpha >= beta:
+                            return (worst, opt_row, opt_col)
+            return (worst, opt_row, opt_col)
 
     def play_game(self):
         # Runs the game
