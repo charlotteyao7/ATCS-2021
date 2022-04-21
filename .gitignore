@@ -130,3 +130,5 @@ dmypy.json
 .pyre/
 .idea/
 
+# Data Science
+dataScienceProject/environmental_impact_data.csv
