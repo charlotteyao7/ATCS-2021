@@ -7,28 +7,72 @@ class minimaxAI:
     def __init__(self):
         self.minimaxAI = ()
         self.name = "Minimax AI"
-        self.AITurn = True
+        self.AITurn = False
 
     def makeMove(self, current, isFirstMove, previousMove):
-        score, move = self.minimax(current, isFirstMove, previousMove)
+        score, move = self.minimax(None, current, isFirstMove, previousMove)
         return move
 
-    def minimax(self, current, isFM, pM):
-        # self.AITurn = not self.AITurn
+    def minimax(self, optMove, current, isFM, pM):
+        if isFM:
+            self.AITurn = True
         depth = 1000
 
         if depth > 0:
             if current < 0:
                 if self.AITurn:
-                    return 10, current, isFM, pM
+                    return 10, optMove
                 else:
-                    return -10, current, isFM, pM
+                    return -10, optMove
             else:
-                return 0, current, isFM, pM
+                return 0, optMove
         else:
-            return 0, current, isFM, pM
+            return 0, current
 
-        opt_move = -1
+        optMove = -1
+        if self.AITurn:
+            best = -10
+            if iSFM:
+                for i in range(1, current):
+                    current = current - i
+                    self.AITurn = not self.AITurn
+                    score = self.minimax(current, False, i)[0]
+                    if score > best:
+                        best = score
+                        optMove = i
+                    current = current + i
+            else:
+                for j in range(1, 2 * pM + 1):
+                    current = current - j
+                    self.AITurn = not self.AITurn
+                    score = self.minimax(current, False, j)[0]
+                    if score > best:
+                        best = score
+                        optMove = j
+                    current = current + j
+            return best, optMove
+        else:
+            worst = 10
+            if isFM:
+                for n in range(1, current):
+                    current = current - n
+                    self.AITurn = not self.AITurn
+                    score = self.minimax(current, False, n)[0]
+                    if score < worse:
+                        worst = score
+                        optMove = n
+                    current = current + n
+            else:
+                for m in range(1, 2 * pM + 1):
+                    current = current - m
+                    self.AITurn = not self.AITurn
+                    score = self.minimax(current, False, m)[0]
+                    if score < worse:
+                        worst = score
+                        optMove = m
+                    current = current + m
+            return worst, optMove
+
 
         '''
         FROM TIC TAC TOE
