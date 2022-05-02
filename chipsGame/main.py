@@ -11,6 +11,7 @@ input2 = int(input("Select second player (1-4): "))
 p2 = players[input2 - 1]
 
 pile = int(input("What size pile? "))
+print()
 
 isFirstMove = True
 player1Turn = True
