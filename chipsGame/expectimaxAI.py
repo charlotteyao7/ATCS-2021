@@ -1,12 +1,12 @@
 '''
-An unbeatable AI that implements the minimax algorithm
+An AI that implements the expectimax algorithm
 '''
 
-class minimaxAI:
+class expectimaxAI:
 
     def __init__(self):
-        self.minimaxAI = ()
-        self.name = "Minimax AI"
+        self.expectimaxAI = ()
+        self.name = "Expectimax AI"
 
     def makeMove(self, current, isFirstMove, previousMove):
         print("There are currently", current, "chips.")
@@ -14,11 +14,11 @@ class minimaxAI:
             AIturn = True
         else:
             AIturn = False
-        score, move = self.minimax(current, isFirstMove, previousMove, AIturn, 100)
-        print("Minimax AI took", move, "chips")
+        score, move = self.expectimax(current, isFirstMove, previousMove, AIturn, 100)
+        print("Expectimax AI took", move, "chips")
         return move
 
-    def minimax(self, current, isFM, pM, AIturn, depth):
+    def expectimax(self, current, isFM, pM, AIturn, depth):
         if depth > 0:
             if current < 0:
                 if AIturn:
@@ -38,14 +38,15 @@ class minimaxAI:
             for i in range(1, endIndex):
                 current = current - i
                 AIturn = False
-                score = self.minimax(current, False, i, AIturn, depth - 1)[0]
+                score = self.expectimax(current, False, i, AIturn, depth - 1)[0]
                 if score > best:
                     best = score
                     optMove = i
                 current = current + i
             return best, optMove
         else:
-            worst = 10
+            best = -10
+            value = 0
             if isFM:
                 endIndex = current
             else:
@@ -53,9 +54,11 @@ class minimaxAI:
             for n in range(1, endIndex):
                 current = current - n
                 AIturn = True
-                score = self.minimax(current, False, n, AIturn, depth - 1)[0]
-                if score < worst:
-                    worst = score
+                score = self.expectimax(current, False, n, AIturn, depth - 1)[0]
+                p = 1 / (endIndex - 1)  # probability of each move
+                value = value + (p * score)
+                if value > best:
+                    best = value
                     optMove = n
                 current = current + n
-            return worst, optMove
+            return best, optMove

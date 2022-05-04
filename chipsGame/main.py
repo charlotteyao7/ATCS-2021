@@ -1,13 +1,14 @@
 from userPlayer import *
 from randomNPC import *
 from minimaxAI import *
+from expectimaxAI import *
 
-players = [userPlayer("User 1"), userPlayer("User 2"), randomNPC(), minimaxAI()]
+players = [userPlayer("User 1"), userPlayer("User 2"), randomNPC(), minimaxAI(), expectimaxAI()]
 
-print(" 1. User 1 \n 2. User 2 \n 3. Random NPC \n 4. Minimax AI")
-input1 = int(input("Select first player (1-4): "))
+print(" 1. User 1 \n 2. User 2 \n 3. Random NPC \n 4. Minimax AI \n 5. Expectimax AI")
+input1 = int(input("Select first player (1-5): "))
 p1 = players[input1 - 1]
-input2 = int(input("Select second player (1-4): "))
+input2 = int(input("Select second player (1-5): "))
 p2 = players[input2 - 1]
 
 pile = int(input("What size pile? "))
