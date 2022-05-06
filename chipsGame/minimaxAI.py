@@ -34,7 +34,10 @@ class minimaxAI:
             if isFM:
                 endIndex = current
             else:
-                endIndex = 2 * pM + 1
+                if (2 * pM) >= current:
+                    endIndex = current + 1
+                else:
+                    endIndex = 2 * pM + 1
             for i in range(1, endIndex):
                 current = current - i
                 AIturn = False
@@ -49,7 +52,10 @@ class minimaxAI:
             if isFM:
                 endIndex = current
             else:
-                endIndex = 2 * pM + 1
+                if (2 * pM) >= current:
+                    endIndex = current + 1
+                else:
+                    endIndex = 2 * pM + 1
             for n in range(1, endIndex):
                 current = current - n
                 AIturn = True
