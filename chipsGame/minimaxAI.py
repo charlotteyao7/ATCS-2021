@@ -17,13 +17,13 @@ class minimaxAI:
         else:
             AIturn = False
         start = time.time()
-        score, move = self.minimax(current, isFirstMove, previousMove, AIturn, 100)
+        score, move = self.minimax(current, isFirstMove, previousMove, AIturn, 100, -100, 100)
         print("Minimax AI took", move, "chips")
         end = time.time()
         print("This turn took:", end - start, "seconds")
         return move
 
-    def minimax(self, current, isFM, pM, AIturn, depth):
+    def minimax(self, current, isFM, pM, AIturn, depth, alpha, beta):
         if depth > 0:
             if current < 0:
                 if AIturn:
@@ -46,11 +46,15 @@ class minimaxAI:
             for i in range(1, endIndex):
                 current = current - i
                 AIturn = False
-                score = self.minimax(current, False, i, AIturn, depth - 1)[0]
+                score = self.minimax(current, False, i, AIturn, depth - 1, alpha, beta)[0]
                 if score > best:
                     best = score
                     optMove = i
+                if alpha < score:
+                    alpha = score
                 current = current + i
+                if alpha >= beta:
+                    return best, optMove
             return best, optMove
         else:
             worst = 10
@@ -64,9 +68,13 @@ class minimaxAI:
             for n in range(1, endIndex):
                 current = current - n
                 AIturn = True
-                score = self.minimax(current, False, n, AIturn, depth - 1)[0]
+                score = self.minimax(current, False, n, AIturn, depth - 1, alpha, beta)[0]
                 if score < worst:
                     worst = score
                     optMove = n
+                if beta > score:
+                    beta = score
                 current = current + n
+                if alpha >= beta:
+                    return worst, optMove
             return worst, optMove

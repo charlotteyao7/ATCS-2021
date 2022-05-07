@@ -1,5 +1,5 @@
 '''
-Charlotte's hard-coded player from 2020
+Charlotte's hard-coded player from Post AP CS (2020)
 '''
 
 import time
