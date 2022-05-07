@@ -2,6 +2,8 @@
 An unbeatable AI that implements the minimax algorithm
 '''
 
+import time
+
 class minimaxAI:
 
     def __init__(self):
@@ -14,8 +16,11 @@ class minimaxAI:
             AIturn = True
         else:
             AIturn = False
+        start = time.time()
         score, move = self.minimax(current, isFirstMove, previousMove, AIturn, 100)
         print("Minimax AI took", move, "chips")
+        end = time.time()
+        print("This turn took:", end - start, "seconds")
         return move
 
     def minimax(self, current, isFM, pM, AIturn, depth):
