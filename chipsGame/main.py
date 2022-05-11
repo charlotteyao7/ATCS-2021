@@ -62,6 +62,7 @@ while pile > 0:
     player1Turn = not player1Turn
     isFirstMove = False
 
+''' Print end game results '''
 # Disqualifies the player for an invalid move
 if invalidMove:
     if player1Turn:

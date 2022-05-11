@@ -34,7 +34,7 @@ class minimaxAI:
         print("This turn took:", end - start, "seconds")
         return move
 
-
+    ''' Function that is called by makeMove to determine the next move '''
     def minimax(self, current, isFM, pM, AIturn, depth, alpha, beta):
 
         # Base case if no more nodes below
